@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import config from '../config'
 class Repo extends Component {
   
   constructor(props){
@@ -14,7 +13,7 @@ class Repo extends Component {
     }
     else {
       const url = this.props.match.url.replace("/", "");
-      axios.get(`http://localhost:3000/repo/?r=${url}`)
+      axios.get(`${config.apiUrl}repo/?r=${url}`)
       .then((res) => {
         console.log(res.data);
         this.setState({repo: res.data});

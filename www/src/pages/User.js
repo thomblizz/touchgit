@@ -1,7 +1,7 @@
   import React, { Component } from 'react';
   import { Link } from 'react-router-dom';
   import axios from 'axios';
-
+  import config from '../config'
   class User extends Component {
     
     constructor(props){
@@ -12,7 +12,7 @@
         this.getRepos();
         this.state = { user: props.location.user };      
       }
-      else axios.get(`http://localhost:3000/user/?u=${this.props.match.params.user}`)
+      else axios.get(`${config.apiUrl}user/?u=${this.props.match.params.user}`)
         .then((res) => {
           console.log(res.data);
           this.getRepos();
@@ -21,7 +21,7 @@
     }
 
     getRepos () {
-      axios.get(`http://localhost:3000/repo/?u=${this.props.match.params.user}`)
+      axios.get(`${config.apiUrl}repo/?u=${this.props.match.params.user}`)
       .then((res) => {
         const repos = res.data.sort((a, b) => {return b.stargazers_count - a.stargazers_count});
         console.log(repos);

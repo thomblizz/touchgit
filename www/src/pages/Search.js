@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import config from '../config'
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ class Search extends React.Component {
 
   handleSubmit(event) {    
     event.preventDefault();
-    axios.get(`http://localhost:3000/user/?u=${this.state.value}`)
+    axios.get(`${config.apiUrl}user/?u=${this.state.value}`)
     .then((res) => {
       console.log(res.data);
       this.setState({found: res.data});
