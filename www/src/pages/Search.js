@@ -2,13 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config'
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', found: {}};
-
+    this.state = {value: '', found: {}, users: []};
+    this.refreshUsers();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  refreshUsers(){
+    setTimeout(() => {
+      axios.get(`${config.apiUrl}fetchUsers`)
+      .then((res) => {
+        this.setState({users: res.data});      
+        console.log(this.state.users);
+      });
+    }, 1500);
   }
 
   handleChange(event) {
@@ -16,10 +27,10 @@ class Search extends React.Component {
   }
 
   handleSubmit(event) {    
-    event.preventDefault();
+    event.preventDefault();    
     axios.get(`${config.apiUrl}user/?u=${this.state.value}`)
     .then((res) => {
-      console.log(res.data);
+      this.refreshUsers();
       this.setState({found: res.data});
     });
 
@@ -47,6 +58,22 @@ class Search extends React.Component {
             </li>
           ) : (<li></li>)}        
         </ul>
+
+        <h2>searched users</h2>
+        <ul>        
+
+          {this.state.users.map(u => {
+            return (
+            <li key={u.login}>
+              <Link to={{ pathname: `/${u.login}` }}>
+                {u.login}
+              </Link>
+            </li>)
+          })}
+          
+          
+        </ul>
+
       </div>
 
     );
