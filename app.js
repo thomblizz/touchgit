@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'www', 'build')));
 
+app.use('/static/js',express.static(path.join(__dirname, 'www/build/static/js')));
+
 app.use(cors());
 
 app.use('/api', api);

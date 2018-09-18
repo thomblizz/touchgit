@@ -85,6 +85,7 @@
               <div>Following {user.following}</div>
               <div>{user.email}</div>
               <div>{user.bio}</div>
+              <div><a target="_blank" href={user.html_url}>link to github</a></div>
 
               <table>
                 <tbody>
