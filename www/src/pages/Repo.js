@@ -6,10 +6,15 @@ class Repo extends Component {
   constructor(props){
     super(props);    
     console.log(props);
-    this.state = { repo: {} };
+    this.state = { repo: {}, commits: [] };
     
     if (props.location.repo) {
-      this.state = { repo: props.location.repo };      
+      this.state = { repo: props.location.repo };
+      axios.get(`${this.state.repo.commits_url.replace('{/sha}', '')}`)
+      .then((res) => {
+        console.log(res.data);
+        this.setState({commits: res.data});
+      });
     }
     else {
       const url = this.props.match.url.replace("/", "");
@@ -17,7 +22,16 @@ class Repo extends Component {
       .then((res) => {
         console.log(res.data);
         this.setState({repo: res.data});
+        
+        axios.get(`${res.data.commits_url.replace('{/sha}', '')}`)
+        .then((res) => {
+          console.log(res.data);
+          this.setState({repo: this.state.repo, commits: res.data});
+        });
+
       });
+
+      
     }
   }
     
@@ -44,6 +58,17 @@ class Repo extends Component {
           </div>
         )
       }
+
+      <ul>
+        {this.state.commits.map(c => {
+          return (
+          <li key={c.sha}>
+            
+            {c.commit.committer.date} - {c.author.login} - {c.commit.message} 
+            
+          </li>)
+        })}
+      </ul>
       </div>
     );
   }

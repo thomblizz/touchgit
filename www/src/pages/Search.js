@@ -41,7 +41,7 @@ class Search extends React.Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name:
+            AEHOOOO:
             <input type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
